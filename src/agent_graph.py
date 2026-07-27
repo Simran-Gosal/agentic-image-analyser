@@ -68,5 +68,5 @@ agent = graph.compile()
 
 
 if __name__ == "__main__":
-    result = agent.invoke({"image_path": "../test.jpg"})
+    result = agent.invoke({"image_path": "../landscape.jpg"})
     print(result["final_report"])
