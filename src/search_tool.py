@@ -9,6 +9,8 @@ client = TavilyClient(api_key=os.environ["TAVILY_API_KEY"])
 
 def search_web(query, max_results=3):
     """Search the web using Tavily and return a list of result summaries."""
+    # Tavily's hard limit is 400 chars; leave a safety margin
+    query = query[:380]
     response = client.search(query=query, max_results=max_results)
     results = response.get("results", [])
     return [
