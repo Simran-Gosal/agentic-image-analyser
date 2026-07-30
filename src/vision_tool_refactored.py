@@ -8,6 +8,32 @@ vision_tool_refactored.py
 from transformers import BlipProcessor, BlipForConditionalGeneration
 from PIL import Image
 import torch
+import ollama
+
+GRAMMAR_CLEANUP_PROMPT = '''Fix ONLY the grammar and sentence structure of the following image caption.
+Do NOT add, remove, or change any factual content - do not introduce any new details,
+objects, people, or locations that are not already present in the original caption.
+Only correct grammatical errors so it reads as one natural, coherent sentence.
+
+Caption: "{caption}"
+
+Reply with only the corrected caption, nothing else.'''
+
+
+def clean_caption_grammar(caption, model="llama3"):
+    '''
+    Lightweight grammar cleanup pass over BLIP's raw caption, using the same
+    Ollama text model already used for decision-making. Deliberately
+    constrained to grammar only - does not use vision, so it cannot add
+    facts that weren't already in the raw caption; it can only rephrase.
+    '''
+    prompt = GRAMMAR_CLEANUP_PROMPT.format(caption=caption)
+    response = ollama.chat(
+        model=model,
+        messages=[{"role": "user", "content": prompt}],
+        options={"temperature": 0.1}
+    )
+    return response["message"]["content"].strip()
 
 '''
 A .jpg file, at the raw level is just compressed bytes.

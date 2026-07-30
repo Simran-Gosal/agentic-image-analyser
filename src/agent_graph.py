@@ -8,7 +8,7 @@ agent_graph.py
 #IMPORTS
 from agent_state import AgentState
 from langgraph.graph import StateGraph, END
-from vision_tool_refactored import generate_caption
+from vision_tool_refactored import generate_caption, clean_caption_grammar
 from vision_analysis_tool import analyse_image
 from decision_tool import should_search
 from search_tool import search_web
@@ -19,7 +19,8 @@ from search_tool import search_web
 # runs first, since its fast and gives a baselines description before more detailed vision analysis step runs
 
 def caption_node(state: AgentState) -> AgentState:
-    caption = generate_caption(state["image_path"])
+    raw_caption = generate_caption(state["image_path"])
+    caption = clean_caption_grammar(raw_caption)
     return {**state, "caption": caption}
 
 # ----- Node 2: Ollama Visiona anlaysis (detailed, location-aware) -----
@@ -46,7 +47,8 @@ def decision_node(state: AgentState) -> AgentState:
 # so the final report can include real, external context
 
 def search_node(state: AgentState) -> AgentState:
-    results = search_web(state["vision_analysis"])
+    combined_query = f"{state['caption']} {state['vision_analysis']}"
+    results = search_web(combined_query)
     return {**state, "search_results": results}
 
 

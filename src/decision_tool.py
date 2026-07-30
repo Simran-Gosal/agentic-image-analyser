@@ -12,7 +12,7 @@ decision_tool.py
 #IMPORTS
 import ollama
 
-DECISION_PROMPT = """You are deciding whether an image caption needs additional web research.
+DECISION_PROMPT = '''You are deciding whether an image caption needs additional web research.
 
 Caption: "{caption}"
 
@@ -21,7 +21,7 @@ Does this caption mention anything specific enough to warrant a web search for m
 If YES, more context would genuinely help - reply with exactly one word: SEARCH
 If NO, the caption is already sufficient on its own - reply with exactly one word: SKIP
 
-Reply with only that single word, nothing else."""
+Reply with only that single word, nothing else.'''
 
 
 def should_search(caption):
@@ -41,5 +41,5 @@ if __name__ == "__main__":
     print("Test 1 (generic scene):", should_search(test_caption_1))
 
     # Test case 2: named landmark, should return SEARCH
-    test_caption_2 = "the Eiffel Tower at sunset"
+    test_caption_2 = "The Eiffel Tower at sunset"
     print("Test 2 (named landmark):", should_search(test_caption_2))
