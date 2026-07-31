@@ -98,6 +98,7 @@ Highlights include:
 - Automated test suite covering the core tools
 - Combine both vision outputs (caption & detailed analysis) into the search query
 - Lower the vision analysis temperature for more consistent location identification, matching the fix already applied to the decision step.
+- Reduce processing time by optimising the pipeline. Measured at 76-106 seconds per image, well over the ~30 second target. Potential bottleneck as 'llama3' called separately for grammar cleanup and decision steps. Combining these into a single call could improve efficiency.
 
 ---
 <div align="center">
