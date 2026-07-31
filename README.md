@@ -54,16 +54,22 @@ The core orchestration is built with LangGraph, using conditional routing so the
 This project was tested manually against a range of real images, and the process surfaces genuine, diagnosed issues along the way. 
 
 Highlights include:
-- **Location Hallucination**
-- **Phantom-subject hallucination**
-- **Non-Determinism**
-- **Preprocessing sensitivity**
+
+- **Location Hallucination**: earlier versions on BLIP-2 confidently invented a false, specific location for an image with no basis for the claim. This factored in choosing BLIP-large instead
+- **Phantom-subject hallucination**: BLIP-large persistently describes a person in an image where none exists.
+- **Non-Determinism**: the SEARCH/SKIP decision could flip between identical runs at default temperature - fixed by lowering it.
+- **Preprocessing sensitivity**: the same image produced different, factually different captions depending on how it was encoded before reaching the model - fixed by preserving original upload bytes rather than re-encoding.
 
 ## Known Limitations
-
+1. No automated pytest suite - testing is manual, documented in docs/06_Testing.md
+2. Vision models can still confidently misidentify small/occluded objects
+3. Web search relevance currently depends on the detailed vision analysis alone, not the initial caption
+4. Small, manually chosen test image set rather than a large representative sample
 
 ## What I'd Improve 
-
+- Automated test suite covering the core tools
+- Combine both vision outputs (caption & detailed analysis) into the search query
+- Lower the vision analysis temperature for more consistent location identification, matching the fix already applied to the decision step.
 
 ---
 <div align=center>
