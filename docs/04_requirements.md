@@ -39,7 +39,7 @@
 | # | Requirement | Met? |
 |---|---|---|
 | 1 | **Reliability** - the captioning model must produce coherent, grammatically sensible output (not a nonsensical output that is not relevant to the image uploaded) | PARTIALLY MET - output is always grammatically readable but not always factually reliable. Testing found hallucinations of locations and confident misidentification of small objects.  |
-| 2 | **Performance** - a single image should be processed and return a report within a reasonable time on local hardware (target: under ~30 seconds, accounting for local LLM inference without a dedicated GPU) | TESTING!! |
+| 2 | **Performance** - a single image should be processed and return a report within a reasonable time on local hardware (target: under ~30 seconds, accounting for local LLM inference without a dedicated GPU) | NOT MET - average ~86 seconds, range:76s-106s. Direct consequence of design decision made. |
 | 3 | **Portability** - the system must run entirely on local hardware without requiring a dedicated NVIDIA GPU, since this is a constraint of the development machine | MET - developed and tested throughout on local hardware with no dedicated NVIDIA GPU |
 | 4 | **Cost** - the system must not depend on a paid third-party LLM API for its core reasoning, since it self-hosts its LLM via Ollama | MET - all reasoning and vision analysis runs locally via Ollama and an external API used is Tavily's free-tier web search |
 | 5 | **Usability** - the interface must require no technical knowledge to operate; a user should only need to upload an image and read the output | MET - Streamlit interface requires only a file upload; report displays automatically with no configuration needed by the end user.|
